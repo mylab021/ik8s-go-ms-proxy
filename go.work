@@ -5,4 +5,5 @@ use (
 	./pkg/config
 	./pkg/logger
 	./services/user-service
+	./services/order-service
 )

@@ -4,10 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http/httputil"
+	"net/url"
+
 	"github.com/gin-gonic/gin"
 	"github.com/mylab021/ik8s-ms-proxy/pkg/config"
 	"github.com/mylab021/ik8s-ms-proxy/pkg/logger"
-	"io"
 
 	"log"
 	"net"
@@ -19,8 +22,6 @@ import (
 	"syscall"
 	"time"
 )
-
-var startTime = time.Now()
 
 func GetAllIPs() ([]string, error) {
 	config.InitConfig()
@@ -66,24 +67,6 @@ func GetAllIPs() ([]string, error) {
 	return ips, nil
 }
 
-// ServerInfo 服务器信息结构体
-type ServerInfo struct {
-	Hostname     string   `json:"hostname"`
-	GoVersion    string   `json:"go_version"`
-	OS           string   `json:"os"`
-	Architecture string   `json:"architecture"`
-	NumCPU       int      `json:"num_cpu"`
-	Goroutines   int      `json:"goroutines"`
-	Uptime       int64    `json:"uptime_seconds"`
-	Environment  []string `json:"environment"`
-	MemoryStats  struct {
-		Alloc      uint64 `json:"alloc_bytes"`
-		TotalAlloc uint64 `json:"total_alloc_bytes"`
-		Sys        uint64 `json:"sys_bytes"`
-		NumGC      uint32 `json:"num_gc"`
-	} `json:"memory_stats"`
-}
-
 func GetRequestHeaders(ctx *gin.Context) map[string]string {
 	headers := map[string]string{}
 	for key, value := range ctx.Request.Header {
@@ -92,7 +75,7 @@ func GetRequestHeaders(ctx *gin.Context) map[string]string {
 	return headers
 }
 
-func GetK8SInfo(ctx *gin.Context) map[string]string {
+func GetK8SInfo() map[string]string {
 	k8sInfo := make(map[string]string)
 	if os.Getenv("NODE_NAME") != "" {
 		k8sInfo["K8S Node Name"] = os.Getenv("NODE_NAME")
@@ -116,7 +99,7 @@ func GetServerInfo() map[string]interface{} {
 	var memStats runtime.MemStats
 	runtime.ReadMemStats(&memStats)
 	serverInfo := make(map[string]interface{})
-
+	serverInfo["APP_NAME"] = "Gateway Service"
 	serverInfo["HostName"], _ = os.Hostname()
 	ips, err := GetAllIPs()
 	if err == nil {
@@ -146,7 +129,7 @@ func GetInfo(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"RequestHeaders": GetRequestHeaders(ctx),
-		"K8SInfo":        GetK8SInfo(ctx),
+		"K8SInfo":        GetK8SInfo(),
 		"ServerInfo":     GetServerInfo(),
 		"ClientInfo":     GetClientInfo(ctx),
 	})
@@ -159,7 +142,12 @@ func GetUserServiceInfo(ctx *gin.Context) {
 		Timeout: 10 * time.Second,
 	}
 
-	req, err := http.NewRequest(http.MethodGet, "http://127.0.0.1:8081", nil)
+	targetURL := os.Getenv("USER_SERVICE_URL")
+	if targetURL == "" {
+		targetURL = "http://user-service:8080"
+	}
+
+	req, err := http.NewRequest(http.MethodGet, targetURL, nil)
 	if err != nil {
 		panic(err)
 	}
@@ -176,7 +164,12 @@ func GetUserServiceInfo(ctx *gin.Context) {
 		})
 		return
 	}
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	// 读取响应体
 	body, err := io.ReadAll(resp.Body)
@@ -195,10 +188,35 @@ func GetUserServiceInfo(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"source": "external API",
-		"data":   data,
-	})
+	ctx.JSON(http.StatusOK, data)
+}
+
+func GetOrderServiceInfo(ctx *gin.Context) {
+	targetURL := os.Getenv("ORDER_SERVICE_URL")
+	if targetURL == "" {
+		targetURL = "http://order-service:8080"
+	}
+	target, err := url.Parse(targetURL)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Failed to parse URL",
+		})
+	}
+	proxy := httputil.NewSingleHostReverseProxy(target)
+	proxy.Director = func(req *http.Request) {
+		req.URL.Scheme = target.Scheme
+		req.URL.Host = target.Host
+		req.Host = target.Host
+		if req.Header.Get("X-Forwarded-For") != "" {
+			req.Header.Set("X-Forwarded-For", req.Header.Get("X-Forwarded-For"))
+		} else {
+			req.Header.Set("X-Forwarded-For", ctx.ClientIP())
+		}
+		req.URL.Path = "/"
+	}
+	proxy.Transport = &http.Transport{}
+
+	proxy.ServeHTTP(ctx.Writer, ctx.Request)
 }
 
 func main() {
@@ -215,6 +233,7 @@ func main() {
 	})
 
 	router.GET("/user-service", GetUserServiceInfo)
+	router.GET("/order-service", GetOrderServiceInfo)
 
 	srv := &http.Server{
 		Addr:    ":8080",
@@ -228,12 +247,12 @@ func main() {
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server with
+	// Wait for interrupt signal to gracefully shut down the server with
 	// a timeout of 5 seconds.
 	quit := make(chan os.Signal, 1)
 	// kill (no params) by default sends syscall.SIGTERM
 	// kill -2 is syscall.SIGINT
-	// kill -9 is syscall.SIGKILL but can't be caught, so don't need add it
+	// kill -9 is syscall.SIGKILL but can't be caught, so don't need to add it
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 	log.Println("Shutdown Server ...")

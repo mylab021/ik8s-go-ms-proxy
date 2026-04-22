@@ -89,7 +89,7 @@ func GetServerInfo() map[string]interface{} {
 	var memStats runtime.MemStats
 	runtime.ReadMemStats(&memStats)
 	serverInfo := make(map[string]interface{})
-	serverInfo["APP_NAME"] = "User Service"
+	serverInfo["APP_NAME"] = "Order Service"
 	serverInfo["HostName"], _ = os.Hostname()
 	ips, err := GetAllIPs()
 	if err == nil {

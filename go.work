@@ -1,0 +1,8 @@
+go 1.25.9
+
+use (
+	./gateway
+	./pkg/config
+	./pkg/logger
+	./services/user-service
+)

@@ -10,7 +10,7 @@ COPY services/order-service/go.mod ./services/order-service/
 COPY services/order-service ./services/order-service
 
 WORKDIR /app/services/order-service
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o order-service .
+RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o order-service .
 
 # Final stage
 FROM alpine:latest

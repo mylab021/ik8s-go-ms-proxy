@@ -9,7 +9,7 @@ COPY gateway/go.mod ./gateway/
 COPY gateway ./gateway
 
 WORKDIR /app/gateway
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gateway .
+RUN go mod tidy &&  CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gateway .
 
 # Final stage
 FROM alpine:latest

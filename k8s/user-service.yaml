@@ -18,48 +18,31 @@ spec:
           ports:
             - containerPort: 8080
           env:
-            - name: SERVER_PORT
-              value: "8080"
-            - name: DB_HOST
+            - name: POD_NAME
               valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_HOST
-            - name: DB_PORT
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
               valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_PORT
-            - name: DB_USER
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_IP
               valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_USER
-            - name: DB_PASSWORD
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: NODE_NAME
               valueFrom:
-                secretKeyRef:
-                  name: ecommerce-secret
-                  key: DB_PASSWORD
-            - name: DB_NAME
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: NODE_IP
               valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_NAME
-            - name: REDIS_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: REDIS_HOST
-            - name: REDIS_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: REDIS_PORT
-            - name: JWT_SECRET
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: JWT_SECRET
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
           resources:
             requests:
               memory: "128Mi"

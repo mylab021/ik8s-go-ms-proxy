@@ -15,36 +15,34 @@ spec:
       containers:
         - name: order-service
           image: harbor-srv01.mylab021.com/ik8s-go-ms-proxy/order-service:latest
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: spec.nodeName
+            - name: NODE_IP
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: status.hostIP
           ports:
             - containerPort: 8080
-          env:
-            - name: SERVER_PORT
-              value: "8080"
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_HOST
-            - name: DB_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_PORT
-            - name: DB_USER
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_USER
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: ecommerce-secret
-                  key: DB_PASSWORD
-            - name: DB_NAME
-              valueFrom:
-                configMapKeyRef:
-                  name: ecommerce-config
-                  key: DB_NAME
           resources:
             requests:
               memory: "128Mi"

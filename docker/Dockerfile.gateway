@@ -3,8 +3,9 @@ FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
-COPY gateway services pkg ./
-
+COPY gateway ./
+COPY services ./
+COPY pkg ./
 WORKDIR /app/gateway
 
 RUN go mod download

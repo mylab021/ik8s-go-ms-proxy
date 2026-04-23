@@ -1,4 +1,4 @@
-module github.com/mylab021/ik8s-ms-proxy/user-service
+module github.com/mylab021/ik8s-go-ms-proxy/services/user-service
 
 go 1.25.9
 

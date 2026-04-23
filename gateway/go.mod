@@ -1,4 +1,4 @@
-module github.com/mylab021/ik8s-ms-proxy/gateway
+module github.com/mylab021/ik8s-go-ms-proxy/gateway
 
 go 1.25.0
 
@@ -38,9 +38,9 @@ require (
 )
 
 replace (
-	github.com/mylab021/ik8s-ms-proxy/pkg => ../pkg
-	github.com/mylab021/ik8s-ms-proxy/pkg/common => ../pkg/common
-	github.com/mylab021/ik8s-ms-proxy/pkg/config => ../pkg/config
-	github.com/mylab021/ik8s-ms-proxy/pkg/handler => ../pkg/handler
-	github.com/mylab021/ik8s-ms-proxy/pkg/utils => ../pkg/utils
+
+	github.com/mylab021/ik8s-go-ms-proxy/pkg/common => ../pkg/common
+	github.com/mylab021/ik8s-go-ms-proxy/pkg/config => ../pkg/config
+	github.com/mylab021/ik8s-go-ms-proxy/pkg/handler => ../pkg/handler
+	github.com/mylab021/ik8s-go-ms-proxy/pkg/utils => ../pkg/utils
 )

@@ -1,12 +1,13 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/mylab021/ik8s-ms-proxy/pkg/common"
-	"github.com/mylab021/ik8s-ms-proxy/pkg/config"
-	"github.com/mylab021/ik8s-ms-proxy/pkg/handler"
-	"github.com/mylab021/ik8s-ms-proxy/pkg/utils"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	"github.com/mylab021/ik8s-go-ms-proxy/pkg/common"
+	"github.com/mylab021/ik8s-go-ms-proxy/pkg/config"
+	"github.com/mylab021/ik8s-go-ms-proxy/pkg/handler"
+	"github.com/mylab021/ik8s-go-ms-proxy/pkg/utils"
 )
 
 func main() {

@@ -40,4 +40,5 @@ require (
 replace (
 	github.com/mylab021/ik8s-ms-proxy/pkg/logger => ../pkg/logger
 	github.com/mylab021/ik8s-ms-proxy/pkg/config => ../pkg/config
+	github.com/mylab021/ik8s-ms-proxy/pkg/common => ../pkg/common
 )

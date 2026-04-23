@@ -4,6 +4,10 @@ use (
 	./gateway
 	./pkg/config
 	./pkg/logger
+	./pkg/handler
+	./pkg/common
+	./pkg/utils
 	./services/user-service
 	./services/order-service
+	./services/product-service
 )

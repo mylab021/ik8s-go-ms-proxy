@@ -14,7 +14,7 @@ func main() {
 
 	cfg := config.LoadConfig()
 
-	serverHandler := handler.NewServerHandler(cfg.OrderServiceConfig.Name)
+	serverHandler := handler.NewServerHandler(cfg.ProductServiceConfig.Name)
 
 	router.GET("/", serverHandler.GetHttpInfo)
 
@@ -26,5 +26,5 @@ func main() {
 		c.String(http.StatusOK, "pong")
 	})
 
-	common.Run(router, cfg.OrderServiceConfig.Name, utils.GenListenAddress(cfg.OrderServiceConfig.BackendPort))
+	common.Run(router, cfg.ProductServiceConfig.Name, utils.GenListenAddress(cfg.ProductServiceConfig.BackendPort))
 }

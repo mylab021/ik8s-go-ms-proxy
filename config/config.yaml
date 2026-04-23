@@ -1,0 +1,104 @@
+# 应用基础配置
+app:
+  name: "user-service"
+  version: "1.0.0"
+  env: "development"  # development, production, staging
+  debug: true
+
+# 服务器配置
+server:
+  host: "0.0.0.0"
+  port: 8080
+  read_timeout: 30s
+  write_timeout: 30s
+  idle_timeout: 60s
+  graceful_shutdown_timeout: 10s
+
+# 数据库配置
+database:
+  primary:
+    driver: "postgres"
+    host: "localhost"
+    port: 5432
+    username: "postgres"
+    password: "password"
+    database: "userservice"
+    ssl_mode: "disable"
+    max_open_conns: 25
+    max_idle_conns: 5
+    conn_max_lifetime: 300s
+  redis:
+    host: "localhost"
+    port: 6379
+    password: ""
+    db: 0
+    pool_size: 10
+    key_prefix: "user:"
+
+# 日志配置
+logger:
+  level: "info"  # debug, info, warn, error, fatal
+  format: "json" # json, text
+  output: "stdout"
+  file_path: "/var/log/user-service.log"
+  max_size: 100  # MB
+  max_backups: 3
+  max_age: 28    # 天
+  compress: true
+
+# Jaeger 分布式追踪
+tracing:
+  enabled: false
+  service_name: "user-service"
+  collector_endpoint: "http://localhost:14268/api/traces"
+
+# Prometheus 监控
+metrics:
+  enabled: true
+  port: 9090
+  path: "/metrics"
+
+# Kafka 消息队列
+kafka:
+  brokers:
+    - "localhost:9092"
+  topics:
+    user_created: "user.created"
+    user_updated: "user.updated"
+  consumer_group: "user-service-group"
+  sasl:  # 可选
+    enabled: false
+    username: ""
+    password: ""
+
+# 外部服务
+services:
+  auth_service:
+    url: "http://auth-service:8081"
+    timeout: 5s
+    retry_max: 3
+  email_service:
+    url: "http://email-service:8082"
+    timeout: 3s
+
+# 功能开关
+features:
+  enable_cache: true
+  enable_rate_limit: false
+  maintenance_mode: false
+
+# 安全配置
+security:
+  jwt_secret_key: "your-jwt-secret-key-change-in-production"
+  bcrypt_cost: 12
+  token_expiry: 24h
+  refresh_token_expiry: 720h
+  cors_allowed_origins:
+    - "http://localhost:3000"
+    - "https://example.com"
+
+# 限流配置
+rate_limit:
+  enabled: false
+  requests_per_second: 100
+  burst: 20

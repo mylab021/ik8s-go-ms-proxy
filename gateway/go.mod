@@ -4,7 +4,7 @@ go 1.25.0
 
 require github.com/gin-gonic/gin v1.12.0
 
-require go.mongodb.org/mongo-driver/v2 v2.5.0 // indirect
+require go.mongodb.org/mongo-driver/v2 v2.5.1 // indirect
 
 require (
 	github.com/bytedance/gopkg v0.1.4 // indirect; indirects
@@ -38,9 +38,9 @@ require (
 )
 
 replace (
-	github.com/mylab021/ik8s-ms-proxy/pkg/config => ../pkg/config
+	github.com/mylab021/ik8s-ms-proxy/pkg => ../pkg
 	github.com/mylab021/ik8s-ms-proxy/pkg/common => ../pkg/common
-	github.com/mylab021/ik8s-ms-proxy/pkg/utils => ../pkg/utils
+	github.com/mylab021/ik8s-ms-proxy/pkg/config => ../pkg/config
 	github.com/mylab021/ik8s-ms-proxy/pkg/handler => ../pkg/handler
-
+	github.com/mylab021/ik8s-ms-proxy/pkg/utils => ../pkg/utils
 )

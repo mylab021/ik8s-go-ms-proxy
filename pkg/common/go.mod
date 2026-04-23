@@ -1,3 +1,3 @@
-module github.com/mylab021/ik8s-go-ms-proxy/pkg/common
+module pkg/common
 
 go 1.25

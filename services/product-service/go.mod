@@ -1,4 +1,4 @@
-module github.com/mylab021/ik8s-go-ms-proxy/services/product-service
+module services/product-service
 
 go 1.25.9
 

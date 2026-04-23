@@ -1,3 +1,3 @@
-module github.com/mylab021/ik8s-go-ms-proxy/pkg/logger
+module pkg/logger
 
 go 1.25

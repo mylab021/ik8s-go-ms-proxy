@@ -1,2 +1,2 @@
-module github.com/mylab021/ik8s-go-ms-proxy/pkg/config
+module pkg/config
 go 1.25.0

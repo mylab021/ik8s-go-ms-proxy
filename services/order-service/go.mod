@@ -5,7 +5,6 @@ go 1.25.9
 require github.com/gin-gonic/gin v1.12.0
 
 replace (
-	github.com/mylab021/ik8s-ms-proxy/pkg/handler => ../../pkg/handler
 )
 
 require (

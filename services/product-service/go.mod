@@ -1,4 +1,4 @@
-module github.com/mylab021/ik8s-ms-proxy/order-service
+module github.com/mylab021/ik8s-ms-proxy/product-service
 
 go 1.25.9
 

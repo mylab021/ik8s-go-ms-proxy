@@ -5,11 +5,9 @@ WORKDIR /app
 
 COPY gateway services pkg ./
 
-COPY gateway/go.mod ./
+WORKDIR /app/gateway
 
 RUN go mod download
-
-WORKDIR /app/gateway
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gateway .
 

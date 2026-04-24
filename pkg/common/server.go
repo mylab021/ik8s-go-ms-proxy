@@ -3,16 +3,25 @@ package common
 import (
 	"context"
 	"errors"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Run(r *gin.Engine, serverName string, addr string) {
+
+	curDir, _ := os.Getwd()
+	log.Printf("Current Dir: %s", curDir)
+	tmplPath := filepath.Join(curDir, "pkg", "handler", "templates", "*")
+
+	r.LoadHTMLGlob(tmplPath)
+
 	server := &http.Server{
 		Addr:    addr,
 		Handler: r,
@@ -31,7 +40,7 @@ func Run(r *gin.Engine, serverName string, addr string) {
 	//SIGTERM 结束程序(可以被捕获、阻塞或忽略)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
-	log.Printf("Shutting Down project %s... \n", serverName)
+	log.Printf("Shutting Down iK8S Proxy %s... \n", serverName)
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {

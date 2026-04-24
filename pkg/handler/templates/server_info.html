@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>iK8S Proxy {{ .title }} Info</title>
+</head>
+<body>
+    <h1 style="font-size: 20px; color: red">{{ .title }}</h1>
+    {{ if .k8sinfo }}
+        <h3>K8S Info</h3>
+        {{ range $key, $value := .k8sinfo }}
+            <span style="font-size: 16px; color: red">{{ $key }}</span>: <span style="font-size: 16px; color: black">{{ $value }}</span>
+            <br>
+        {{end}}
+    {{else}}
+        <p>No k8s info</p>
+    {{end}}
+
+
+    {{ if .ServerInfo }}
+        <h3>Server Info</h3>
+        {{ range $key, $value := .ServerInfo }}
+            <span style="font-size: 16px; color: red">{{ $key }}</span>: <span style="font-size: 16px; color: black">{{ $value }}</span>
+        <br>
+        {{end}}
+    {{else}}
+        <p>No Server Info</p>
+    {{end}}
+
+    {{ if .ClientInfo }}
+        <h3>Client Info</h3>
+        {{ range $key, $value := .ClientInfo }}
+            <span style="font-size: 16px; color: red">{{ $key }}</span>: <span style="font-size: 16px; color: black">{{ $value }}</span>
+            <br>
+        {{end}}
+    {{else}}
+        <p>No Client Info</p>
+    {{end}}
+
+    {{ if .RequestHeader }}
+        <h3>Request Header Info</h3>
+        {{ range $key, $value := .RequestHeader }}
+            <span style="font-size: 16px; color: red">{{ $key }}</span>: <span style="font-size: 16px; color: black">{{ $value }}</span>
+            <br>
+        {{end}}
+    {{else}}
+        <p>No Request Header Info</p>
+    {{end}}
+</body>
+</html>

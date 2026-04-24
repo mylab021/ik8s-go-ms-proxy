@@ -61,7 +61,7 @@ func InitConfig() *Config {
 		}
 		userServiceConfig.ServicePort = port
 	} else {
-		userServiceConfig.ServicePort = 8080
+		userServiceConfig.ServicePort = 8081
 	}
 
 	if os.Getenv("ORDER_SERVICE_PORT") != "" {
@@ -71,7 +71,7 @@ func InitConfig() *Config {
 		}
 		orderServiceConfig.ServicePort = port
 	} else {
-		orderServiceConfig.ServicePort = 8080
+		orderServiceConfig.ServicePort = 8082
 	}
 
 	if os.Getenv("PRODUCT_SERVICE_PORT") != "" {
@@ -81,7 +81,7 @@ func InitConfig() *Config {
 		}
 		productServiceConfig.ServicePort = port
 	} else {
-		productServiceConfig.ServicePort = 8080
+		productServiceConfig.ServicePort = 8083
 	}
 
 	config := NewConfig()

@@ -2,13 +2,14 @@ package handler
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"net"
 	"net/http"
 	"os"
 	"runtime"
 	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type serverHandler struct {
@@ -121,11 +122,18 @@ func getClientInfo(ctx *gin.Context) map[string]interface{} {
 }
 
 func (s *serverHandler) GetHttpInfo(ctx *gin.Context) {
-	response := make(map[string]interface{})
-	response["RequestHeaders"] = getRequestHeaders(ctx)
-	response["K8SInfo"] = getK8SInfo(ctx)
-	response["ServerInfo"] = getServerInfo(s.ServiceName)
-	response["ClientInfo"] = getClientInfo(ctx)
-	ctx.JSON(http.StatusOK, response)
-
+	//response := make(map[string]interface{})
+	//response["RequestHeaders"] = getRequestHeaders(ctx)
+	//response["K8SInfo"] = getK8SInfo(ctx)
+	//response["ServerInfo"] = getServerInfo(s.ServiceName)
+	//response["ClientInfo"] = getClientInfo(ctx)
+	//ctx.JSON(http.StatusOK, response)
+	//log.Printf("K8S Server Info %v", getK8SInfo(ctx))
+	ctx.HTML(http.StatusOK, "server_info.html", gin.H{
+		"title":         s.ServiceName,
+		"k8sInfo":       getK8SInfo(ctx),
+		"ServerInfo":    getServerInfo(s.ServiceName),
+		"ClientInfo":    getClientInfo(ctx),
+		"RequestHeader": getRequestHeaders(ctx),
+	})
 }

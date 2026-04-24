@@ -3,15 +3,15 @@ FROM golang:1.25-alpine AS builder
 
 WORKDIR /app
 
-# Copy go mod files
-COPY services/user-service/go.mod ./services/user-service/
-# RUN go mod download
-# RUN go mod tidy
-
-# Copy source code
-COPY services/user-service ./services/user-service
+COPY gateway ./gateway
+COPY services ./services
+COPY pkg ./pkg
+COPY go.work ./
+RUN go work sync
 
 WORKDIR /app/services/user-service
+RUN go mod download
+
 RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o user-service .
 
 # Final stage

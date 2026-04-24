@@ -12,7 +12,7 @@ RUN go work sync
 WORKDIR /app/services/order-service
 RUN go mod download
 
-RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o order-service .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o order-service .
 
 # Final stage
 FROM alpine:latest

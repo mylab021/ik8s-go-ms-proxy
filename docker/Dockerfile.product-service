@@ -12,7 +12,7 @@ RUN go work sync
 WORKDIR /app/services/product-service
 RUN go mod download
 
-RUN go mod tidy && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o product-service .
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o product-service .
 
 # Final stage
 FROM alpine:latest

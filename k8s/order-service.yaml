@@ -16,6 +16,14 @@ spec:
         - name: order-service
           image: harbor-srv01.mylab021.com/ik8s-go-ms-proxy/order-service:latest
           env:
+            - name: GATEWAY_SERVICE_PORT
+              value: "80"
+            - name: USER_SERVICE_PORT
+              value: "8080"
+            - name: ORDER_SERVICE_PORT
+              value: "8080"
+            - name: PRODUCT_SERVICE_PORT
+              value: "8080"
             - name: POD_NAME
               valueFrom:
                 fieldRef:

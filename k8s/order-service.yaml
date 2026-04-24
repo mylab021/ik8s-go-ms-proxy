@@ -15,6 +15,7 @@ spec:
       containers:
         - name: order-service
           image: harbor-srv01.mylab021.com/ik8s-go-ms-proxy/order-service:latest
+          imagePullPolicy: Always
           env:
             - name: GATEWAY_SERVICE_PORT
               value: "80"

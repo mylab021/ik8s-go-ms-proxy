@@ -15,6 +15,7 @@ spec:
       containers:
         - name: gateway
           image: harbor-srv01.mylab021.com/ik8s-go-ms-proxy/gateway:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
           env:

@@ -89,7 +89,7 @@ kind: Service
 metadata:
   name: gateway
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - port: 80
       targetPort: 80

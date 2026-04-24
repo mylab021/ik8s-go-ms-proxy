@@ -6,9 +6,9 @@
 </head>
 <body>
     <h1 style="font-size: 20px; color: red">{{ .title }}</h1>
-    {{ if .k8sinfo }}
+    {{ if .k8sInfo }}
         <h3>K8S Info</h3>
-        {{ range $key, $value := .k8sinfo }}
+        {{ range $key, $value := .k8sInfo }}
             <span style="font-size: 16px; color: red">{{ $key }}</span>: <span style="font-size: 16px; color: black">{{ $value }}</span>
             <br>
         {{end}}

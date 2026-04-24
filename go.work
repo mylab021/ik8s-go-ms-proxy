@@ -1,0 +1,13 @@
+go 1.25.9
+
+use (
+	gateway
+	pkg/common
+	pkg/config
+	pkg/handler
+	pkg/logger
+	pkg/utils
+	services/order-service
+	services/product-service
+	services/user-service
+)

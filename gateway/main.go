@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"pkg/common"
@@ -19,6 +20,11 @@ func main() {
 	userTargetURL := utils.GenTargetURL(cfg.UserServiceConfig.BackendHost, cfg.UserServiceConfig.BackendPort)
 	orderTargetURL := utils.GenTargetURL(cfg.OrderServiceConfig.BackendHost, cfg.OrderServiceConfig.BackendPort)
 	productTargetURL := utils.GenTargetURL(cfg.ProductServiceConfig.BackendHost, cfg.ProductServiceConfig.BackendPort)
+
+	log.Printf("UserService Backend URL: %s", userTargetURL)
+	log.Printf("OrderService Backend URL: %s", orderTargetURL)
+	log.Printf("ProductService Backend URL: %s", productTargetURL)
+
 	serverHandler := handler.NewServerHandler(cfg.GatewayConfig.Name)
 
 	router.GET("/", serverHandler.GetHttpInfo)

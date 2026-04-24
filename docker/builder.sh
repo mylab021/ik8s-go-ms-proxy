@@ -1,4 +1,4 @@
-iK8S_PROXY_VERSION=1.0.2
+iK8S_PROXY_VERSION=v1.0.2
 
 docker build -f docker/Dockerfile.user-service -t harbor-srv01.mylab021.com/ik8s-go-ms-proxy/user-service:${iK8S_PROXY_VERSION} \
                                                -t harbor-srv01.mylab021.com/ik8s-go-ms-proxy/user-service:latest \

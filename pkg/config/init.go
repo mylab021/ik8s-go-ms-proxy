@@ -23,25 +23,25 @@ func InitConfig() *Config {
 	}
 
 	if os.Getenv("ORDER_SERVICE_BACKEND_HOST") != "" {
-		userServiceConfig.BackendHost = os.Getenv("ORDER_SERVICE_BACKEND_HOST")
+		orderServiceConfig.BackendHost = os.Getenv("ORDER_SERVICE_BACKEND_HOST")
 	}
 	if os.Getenv("ORDER_SERVICE_BACKEND_PORT") != "" {
 		port, err := strconv.Atoi(os.Getenv("ORDER_SERVICE_BACKEND_PORT"))
 		if err != nil {
 			port = 8080
 		}
-		userServiceConfig.BackendPort = port
+		orderServiceConfig.BackendPort = port
 	}
 
 	if os.Getenv("PRODUCT_SERVICE_BACKEND_HOST") != "" {
-		userServiceConfig.BackendHost = os.Getenv("PRODUCT_SERVICE_BACKEND_HOST")
+		productServiceConfig.BackendHost = os.Getenv("PRODUCT_SERVICE_BACKEND_HOST")
 	}
 	if os.Getenv("PRODUCT_SERVICE_BACKEND_PORT") != "" {
 		port, err := strconv.Atoi(os.Getenv("PRODUCT_SERVICE_BACKEND_PORT"))
 		if err != nil {
 			port = 8080
 		}
-		userServiceConfig.BackendPort = port
+		productServiceConfig.BackendPort = port
 	}
 
 	if os.Getenv("GATEWAY_SERVICE_PORT") != "" {

@@ -25,5 +25,5 @@ func main() {
 		c.String(http.StatusOK, "pong")
 	})
 
-	common.Run(router, cfg.UserServiceConfig.Name, utils.GenListenAddress(cfg.UserServiceConfig.BackendPort))
+	common.Run(router, cfg.UserServiceConfig.Name, utils.GenListenAddress(cfg.UserServiceConfig.ServicePort))
 }

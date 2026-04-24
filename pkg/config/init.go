@@ -44,14 +44,44 @@ func InitConfig() *Config {
 		userServiceConfig.BackendPort = port
 	}
 
-	if os.Getenv("PORT") != "" {
-		port, err := strconv.Atoi(os.Getenv("PORT"))
+	if os.Getenv("GATEWAY_SERVICE_PORT") != "" {
+		port, err := strconv.Atoi(os.Getenv("GATEWAY_SERVICE_PORT"))
 		if err != nil {
 			port = 80
 		}
 		gatewayConfig.ServicePort = port
 	} else {
-		gatewayConfig.ServicePort = 8080
+		gatewayConfig.ServicePort = 80
+	}
+
+	if os.Getenv("USER_SERVICE_PORT") != "" {
+		port, err := strconv.Atoi(os.Getenv("USER_SERVICE_PORT"))
+		if err != nil {
+			port = 8080
+		}
+		userServiceConfig.ServicePort = port
+	} else {
+		userServiceConfig.ServicePort = 8080
+	}
+
+	if os.Getenv("ORDER_SERVICE_PORT") != "" {
+		port, err := strconv.Atoi(os.Getenv("ORDER_SERVICE_PORT"))
+		if err != nil {
+			port = 8080
+		}
+		orderServiceConfig.ServicePort = port
+	} else {
+		orderServiceConfig.ServicePort = 8080
+	}
+
+	if os.Getenv("PRODUCT_SERVICE_PORT") != "" {
+		port, err := strconv.Atoi(os.Getenv("PRODUCT_SERVICE_PORT"))
+		if err != nil {
+			port = 8080
+		}
+		productServiceConfig.ServicePort = port
+	} else {
+		productServiceConfig.ServicePort = 8080
 	}
 
 	config := NewConfig()

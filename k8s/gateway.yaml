@@ -18,8 +18,14 @@ spec:
           ports:
             - containerPort: 80
           env:
-            - name: PORT
+            - name: GATEWAY_SERVICE_PORT
               value: "80"
+            - name: USER_SERVICE_PORT
+              value: "8080"
+            - name: ORDER_SERVICE_PORT
+              value: "8080"
+            - name: PRODUCT_SERVICE_PORT
+              value: "8080"
             - name: USER_SERVICE_BACKEND_HOST
               value: "user-service"
             - name: USER_SERVICE_BACKEND_PORT
